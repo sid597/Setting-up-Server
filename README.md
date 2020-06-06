@@ -31,14 +31,14 @@ Once decided to go with Digital ocean then:
 There are a few steps that should be done as a basic setup to increase the
 security and usability of server.
 
-### Login as root
+#### Login as root
 
 - Connect you droplet with ssh from your machine
 
  -  To connect with ssh as root one needs to know the IP of their droplet
     grab that then do `ssh root@ip_address`
  - Accept warnings that are displayed
- - ### Set up ssh key insted of password authentication 
+ - ##### Set up ssh key insted of password authentication 
 
     - Go to your machine terminal 
     - If you already have ssh key 
@@ -60,18 +60,18 @@ security and usability of server.
  Now once logged in as a root user, use your great power to create a new 
  sudo user
 
-### Create New User
+#### Create New User
 
 - `adduser Kenzo_Tenma`
 - Skip or enter the details asked
 - Grant the new user sudo privileges `usermod -aG sudo Kenzo_Tenma`
-- ### Enabling external access for this regular user
+- ##### Enabling external access for this regular user
     - Why ? So that I can directly ssh into this account
     - Copy the ssh key to this users authorized keys from root
     - `rsync --archive --chown=Kenzo_Tenma:Kenzo_Tenma ~/.ssh /home/Kenzo_Tenma
 
 
-### Set up basic firewall 
+#### Set up basic firewall 
 
 In digital ocean there is an option to set up firewall( create -> cloud firewalls)
 I tried that option but later I was not able get my nginx working so
@@ -87,7 +87,7 @@ solution to ufw related issue.
     NOTE: This is a basic server setup as of this point only ssh is possible
           for Nginx server we will also need to allow http and https.
 
-### Set up the working environment (Optional)
+#### Set up the working environment (Optional)
 
 At this point I would like to install a few programs:
 vim, zsh, terminator, oh-my-zsh and update their necessary config files
@@ -128,7 +128,7 @@ If copying project from local to server install all the packages for the project
  - `pip install wheel` this is necessary dependency for some packages that does not 
     have wheel archives
  - Install the packages from requirements.txt using command `pip install -r requirements.txt`
- ### Create a WSGI entry point 
+ #### Create a WSGI entry point 
 
     - `vim /path-toproject/wsgi.py`
     > ```
