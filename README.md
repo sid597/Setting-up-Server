@@ -130,16 +130,16 @@ If copying project from local to server install all the packages for the project
  - Install the packages from requirements.txt using command `pip install -r requirements.txt`
  #### Create a WSGI entry point 
 
-    - `vim /path-toproject/wsgi.py`
-    > ```
-       from __init__ import app
-        import os
-        app.secret_key = os.environ.get("FLASK_APP_SECRET_KEY")
-        if __name__ == "__main__":
-            app.run()
+- `vim /path-toproject/wsgi.py`
 
-       ``` 
-  - `deactivate`
+```
+ from __init__ import app
+
+  if __name__ == "__main__":
+      app.run()
+
+ ``` 
+ - `deactivate`
 
      
 ## Configuring Gunicorn
