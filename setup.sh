@@ -126,3 +126,8 @@ execAsUser "${username}" "cd;sudo git clone https://github.com/sid597/config.git
 
 
 execAsUser "${username}" 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
+
+#########################
+# Clone this repo
+########################
+execAsUser "${username}" "cd;sudo git clone https://github.com/sid597/Setting-up-Server.git"
