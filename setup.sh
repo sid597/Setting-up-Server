@@ -95,8 +95,8 @@ execAsUser "${username}" "sudo ufw status"
 # Install softwares 
 ##########################
 
-execAsUser "${username}" "sudo apt update"
-execAsUser "${username}" "sudo apt upgrade"
+# execAsUser "${username}" "sudo apt update"
+# execAsUser "${username}" "sudo apt upgrade"
 execAsUser "${username}" "sudo apt-get install vim "
 execAsUser "${username}" "sudo apt install zsh"
 execAsUser "${username}" "sudo apt-get install terminator"
@@ -109,4 +109,5 @@ execAsUser "${username}" "sh -c '$(curl -fsSL https://raw.githubusercontent.com/
 ########################
 
 execAsUser "${username}" "git clone https://github.com/sid597/config.git"
-execAsUser "${username}" "cd config; cp .vimrc ../; cp .zshrc ../;"
+su $username
+# execAsUser "${username}" "cd config; cp .vimrc ../; cp .zshrc ../;"
