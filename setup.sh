@@ -136,4 +136,4 @@ execAsUser "${username}" "cd config;sudo cp .vimrc ../;sudo cp .zshrc ../;"
 # echo "#############################################"
 
 
-execAsUser "${username}" 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
+# execAsUser "${username}" 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
