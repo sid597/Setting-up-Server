@@ -100,6 +100,13 @@ execAsUser "${username}" "sudo apt upgrade"
 execAsUser "${username}" "sudo apt-get install vim "
 execAsUser "${username}" "sudo apt install zsh"
 execAsUser "${username}" "sudo apt-get install terminator"
-execAsUser "${username}" "sh -c '$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)'
+execAsUser "${username}" "sh -c '$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)'"
 
-# Set terminator default terminal
+
+
+#########################
+# Clone configs
+########################
+
+execAsUser "${username}" "git clone https://github.com/sid597/config.git"
+execAsUser "${username}" "cd config; cp .vimrc ../; cp .zshrc ../;"
