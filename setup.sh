@@ -24,6 +24,22 @@ function addSSHKey() {
     execAsUser "${username}" "chmod 600 ~/.ssh/authorized_keys"
 }
 
+# Keep prompting for the password and password confirmation
+function promptForPassword() {
+   PASSWORDS_MATCH=0
+   while [ "${PASSWORDS_MATCH}" -eq "0" ]; do
+       read -s -rp "Enter new UNIX password:" password
+       printf "\n"
+       read -s -rp "Retype new UNIX password:" password_confirmation
+       printf "\n"
+
+       if [[ "${password}" != "${password_confirmation}" ]]; then
+           echo "Passwords do not match! Please try again."
+       else
+           PASSWORDS_MATCH=1
+       fi
+   done 
+}
 # NOTE : I don't assume any empty or nonsense fields
 
 #######################
@@ -32,7 +48,9 @@ function addSSHKey() {
 
 # create a new user 
 read -rp $'Enter the username for new user :' username
+promptForPassword
 sudo adduser --disabled-password --gecos '' $username
+echo "${username}:${password}" | sudo chpasswd
 usermod -aG sudo $username
 
 
