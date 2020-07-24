@@ -122,18 +122,7 @@ echo "#############################################"
 # Clone configs
 ########################
 
-execAsUser "${username}" "sudo git clone https://github.com/sid597/config.git"
-
-execAsUser "${username}" "cd config;sudo cp .vimrc ../;sudo cp .zshrc ../;"
-
-# exportStatement="export ZSH=\"\/home\/sid597\/\.oh-my-zsh\""
-# replacementForExportStatement="export ZSH=\"\/home\/$username\/\.oh-my-zsh\""
-
-# execAsUser "${username}" "sudo sed -i \"s/export ZSH=\"\/home\/sid597\/\.oh-my-zsh\"/export ZSH=\"\/home\/$username\/\.oh-my-zsh\"/g\" .zshrc"
-
-# echo "#############################################"
-# echo "Config updated and cloned"
-# echo "#############################################"
+execAsUser "${username}" "cd;sudo git clone https://github.com/sid597/config.git"
 
 
-# execAsUser "${username}" 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
+execAsUser "${username}" 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
