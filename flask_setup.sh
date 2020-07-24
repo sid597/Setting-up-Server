@@ -4,9 +4,9 @@
 # Install Base dependencies
 #######################################
 
-$ sudo apt-get -y update
-$ sudo apt-get -y install python3 python3-venv python3-dev
-$ sudo apt-get -y install mysql-server postfix supervisor nginx git
+sudo apt-get -y update
+sudo apt-get -y install python3 python3-venv python3-dev
+sudo apt-get -y install mysql-server postfix supervisor nginx git
 
 
 # These installations run mostly unattended, but at some point while you run 
