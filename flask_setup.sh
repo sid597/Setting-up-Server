@@ -43,7 +43,7 @@ pip install gunicorn pymysql
 
 # Set up server for my app I am using MySql
 
-mysql -u root -p
+# mysql -u root -p
 
 ################################################################
 # enter password which was set initially during installation
@@ -58,7 +58,7 @@ mysql -u root -p
 
 ################################################################
 
-flask db upgrade # Create db migration, Need to have flask migrate in app
+# flask db upgrade # Create db migration, Need to have flask migrate in app
 
 
 ######################################
