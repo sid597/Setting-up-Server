@@ -24,7 +24,9 @@ read -rp $'address for the repo to clone :' repoAddress
 read -rp $'Name of  the repo to clone :' repoName 
 
 cd /var/www
-git clone $repoAddress
+sudo git clone $repoAddress
+currentUser=whoami
+sudo chown -R $currentUser:$currentUser $repoName
 cd $repoName
 python3 -m venv venv
 source venv/bin/activate
