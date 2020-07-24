@@ -71,7 +71,7 @@ sed -i "s/PermitRootLogin yes/PermitRootLogin no/g"  $SSHD_CONFIG_FILE_PATH
 
 sudo service ssh restart
 
-
+echo "ssh server restarted"
 
 
 
@@ -83,23 +83,23 @@ sudo service ssh restart
 
 
 # Install Firewalls 
-execAsUser "${username}" sudo apt-get install -y ufw
-execAsUser "${username}" sudo ufw allow ssh
-execAsUser "${username}" sudo ufw allow http
-execAsUser "${username}" sudo ufw allow 443/tcp
-execAsUser "${username}" sudo ufw --force enable
-execAsUser "${username}" sudo ufw status
+execAsUser "${username}" "sudo apt-get install -y ufw"
+execAsUser "${username}" "sudo ufw allow ssh"
+execAsUser "${username}" "sudo ufw allow http"
+execAsUser "${username}" "sudo ufw allow 443/tcp"
+execAsUser "${username}" "sudo ufw --force enable"
+execAsUser "${username}" "sudo ufw status"
 
 
 ###########################
 # Install softwares 
 ##########################
 
-execAsUser "${username}" sudo apt update
-execAsUser "${username}" sudo apt upgrade
-execAsUser "${username}" sudo apt-get install vim 
-execAsUser "${username}" sudo apt install zsh
-execAsUser "${username}" sudo apt-get install terminator
-execAsUser "${username}" sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+execAsUser "${username}" "sudo apt update"
+execAsUser "${username}" "sudo apt upgrade"
+execAsUser "${username}" "sudo apt-get install vim "
+execAsUser "${username}" "sudo apt install zsh"
+execAsUser "${username}" "sudo apt-get install terminator"
+execAsUser "${username}" "sh -c '$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)'
 
 # Set terminator default terminal
