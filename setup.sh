@@ -131,5 +131,8 @@ execAsUser "${username}" "cd;sudo git clone https://github.com/sid597/config.git
 ########################
 execAsUser "${username}" "cd;sudo git clone https://github.com/sid597/Setting-up-Server.git"
 
+execAsUser "${username}" "cd;sudo chown -R $username:$username Setting-up-Server"
+execAsUser "${username}" "cd;sudo chown -R $username:$username config"
+
 # Install oh my zsh
 execAsUser "${username}" 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
