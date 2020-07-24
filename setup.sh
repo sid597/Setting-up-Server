@@ -50,6 +50,7 @@ function promptForPassword() {
 read -rp $'Enter the username for new user :' username
 promptForPassword
 sudo adduser --disabled-password --gecos '' $username
+echo "${username}:${password}" | sudo chpasswd
 usermod -aG sudo $username
 
 
