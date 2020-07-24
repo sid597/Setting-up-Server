@@ -1,10 +1,39 @@
 #!/bin/bash
 
+# Execute a command as a certain user
+# Arguments:
+#   Account Username
+#   Command to be executed
+function execAsUser() {
+    local username=${1}
+    local exec_command=${2}
+
+    sudo -u "${username}" -H bash -c "${exec_command}"
+}
+
+# Add the local machine public SSH Key for the new user account
+# Arguments:
+#   Account Username
+#   Public SSH Key
+function addSSHKey() {
+    local username=${1}
+    local sshKey=${2}
+
+    execAsUser "${username}" "mkdir -p ~/.ssh; chmod 700 ~/.ssh; touch ~/.ssh/authorized_keys"
+    execAsUser "${username}" "echo \"${sshKey}\" | sudo tee -a ~/.ssh/authorized_keys"
+    execAsUser "${username}" "chmod 600 ~/.ssh/authorized_keys"
+}
+
 # NOTE : I don't assume any empty or nonsense fields
 
 #######################
 # Password less login 
 ########################
+
+# create a new user 
+read -rp $'Enter the username for new user :' username
+sudo adduser --disabled-password --gecos '' $username
+usermod -aG sudo $username
 
 
 # Add your local pc ssh public key
@@ -13,13 +42,7 @@
 # cat ~/.ssh/id_rsa.pub
 
 read -rp $'Paste your ssh key : ' sshKey
-
-echo $sshKey >> ~/.ssh/authorized_keys
-chmod 600 ~/.ssh/authorized_keys
-
-###################
-# securing server
-###################
+addSSHKey "${username}" "${sshKey}"
 
 # Disable password login and root logins
 
@@ -31,24 +54,34 @@ sed -i "s/PermitRootLogin yes/PermitRootLogin no/g"  SSHD_CONFIG_FILE_PATH
 sudo service ssh restart
 
 
+
+
+
+###################
+# securing server
+###################
+
+
+
+
 # Install Firewalls 
-sudo apt-get install -y ufw
-sudo ufw allow ssh
-sudo ufw allow http
-sudo ufw allow 443/tcp
-sudo ufw --force enable
-sudo ufw status
+execAsUser "${username}" sudo apt-get install -y ufw
+execAsUser "${username}" sudo ufw allow ssh
+execAsUser "${username}" sudo ufw allow http
+execAsUser "${username}" sudo ufw allow 443/tcp
+execAsUser "${username}" sudo ufw --force enable
+execAsUser "${username}" sudo ufw status
 
 
 ###########################
 # Install softwares 
 ##########################
 
-sudo apt update
-sudo apt upgrade
-sudo apt-get install vim 
-sudo apt install zsh
-sudo apt-get install terminator
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+execAsUser "${username}" sudo apt update
+execAsUser "${username}" sudo apt upgrade
+execAsUser "${username}" sudo apt-get install vim 
+execAsUser "${username}" sudo apt install zsh
+execAsUser "${username}" sudo apt-get install terminator
+execAsUser "${username}" sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # Set terminator default terminal
