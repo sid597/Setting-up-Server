@@ -30,6 +30,8 @@ cd $repoName
 python3 -m venv venv
 source venv/bin/activate
 pip install wheel
+pip install --upgrade pip
+python3 -m pip install --upgrade setuptools
 pip install -r requirements.txt
 pip install gunicorn pymysql
 
