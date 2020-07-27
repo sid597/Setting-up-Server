@@ -51,7 +51,7 @@ read -rp $'Enter the username for new user :' username
 promptForPassword
 sudo adduser --disabled-password --gecos '' $username
 echo "${username}:${password}" | sudo chpasswd
-usermod -aG sudo $username
+sudo usermod -aG sudo $username
 
 
 # Add your local pc ssh public key
