@@ -1,28 +1,5 @@
 #!/bin/bash
 
-######################################
-# Install Mysql 8
-#######################################
-
-# Adding the MySQL Software Repository
-cd /tmp
-sudo curl -OL https://dev.mysql.com/get/mysql-apt-config_0.8.10-1_all.deb
-sudo dpkg -i mysql-apt-config*
-sudo apt update
-rm mysql-apt-config*
-
-#  Installing MySQL
-sudo apt install mysql-server
-
-# Check status
-systemctl status mysql
-
-# Securing MySQL
-mysql_secure_installation
-
-# Testing MySQL
-mysqladmin -u root -p version
-
 
 ######################################
 # Install Base dependencies
@@ -30,7 +7,7 @@ mysqladmin -u root -p version
 
 sudo apt-get -y update
 sudo apt-get -y install python3 python3-venv python3-dev
-sudo apt-get -y install postfix supervisor nginx git
+sudo apt-get -y install mysql-server postfix supervisor nginx git
 
 
 # These installations run mostly unattended, but at some point while you run 
