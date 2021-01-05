@@ -44,30 +44,86 @@ pip install gunicorn pymysql
 
 ################################################################
 
-# Set up server for my app I am using MySql
+# Set up database, for my app I am using MySql
+# Following code is copied from bolowiki/database_setup.sh
 
-# mysql -u root -p
+# use tts(text to speech) the database name : for me
+# user name you know : for me
 
-################################################################
-# enter password which was set initially during installation
-# Now in mysql create a new db call it whatever you want also create a user 
-# with the same name that has full access to it
+read -rp $'Enter username for db :' user 
+read -rp $'Enter password for db :' password 
+read -rp $'Enter database name  :' database
+ 
+function execAsRoot() {
 
-# mysql> create database something character set utf8 collate utf8_bin;
-# mysql> create user 'something'@'localhost' identified by '<db-password>';
-# mysql> grant all privileges on something.* to 'something'@'localhost';
-# mysql> flush privileges;
-# mysql> quit;
+    command=${1}
+    sudo mysql --user="root" --password=""  --execute="$command"
+}
 
-################################################################
+function execAsUser() {
+    command=${1}
+    sudo mysql --user="$user" --password="$password" --database="$database" --execute="$command"
 
-# flask db upgrade # Create db migration, Need to have flask migrate in app
+}
+
+execAsRoot "create database $database character set utf8 collate utf8_bin;"
+execAsRoot "create user '$user'@'localhost' identified by '$password';"
+execAsRoot "grant all privileges on $database.* to '$user'@'localhost';"
+execAsRoot "flush privileges;"
+
+export FLASK_APP=bolowikiApp/__init__.py
+export FLASK_ENV=development      
+flask db upgrade
 
 
-######################################
-# Setup Nginx
-#######################################
+# I have a configuration file for gunicorn, supervusor and nginx
+# so I am going to copy these config files into the right locations
+
+# deactivate the python virtual environment and goto main directory
+deactivate
+cd 
+# clone repo
+
+
+read -rp $'address for the repo with ngin etc. conf to clone :' repoAddress
+sudo git clone $repoAddress
+sudo chown -R $USER:$USER $repoName
+cd $repoName
 
 ######################################
 # setup gunicorn and supervisor
 #######################################
+
+# copy the supervisor conf
+# the conf looks like :
+# [program:bolowiki]
+# command=/var/www/bolowiki/venv/bin/gunicorn -b localhost:8000 -w 4 run:app
+# directory=/var/www/bolowiki
+# user=sid597
+# autostart=true
+# autorestart=true
+# stopasgroup=true
+# killasgroup=true
+cp boloWiki.conf /etc/supervisor/conf.d/
+
+######################################
+# Install ssl certificate, Nginx
+######################################
+
+sudo rm /etc/nginx/sites-enabled/default
+# install ssl 
+# This is for ubuntu 18
+sudo apt-get update
+sudo apt-get install software-properties-common
+sudo add-apt-repository universe
+sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get update
+
+sudo apt-get install certbot python3-certbot-nginx
+
+sudo certbot --nginx
+
+# copy the nginx conf  based on loaction of where conf is stored
+# It is typically one of /usr/local/nginx/conf, /etc/nginx, or /usr/local/etc/nginx.
+
+echo "Copy the conf file for nginx, then reload nginx and supervisor"
