@@ -1,6 +1,9 @@
+I wrote this script to ease the process of setting up my virtual server. 
+The script creates a new non-sudo user, logs in as new user, enables ssh login, disables root login,
+sets up firewall, Installs Vim, Zsh and terminator.
 # Setting up server to deploy Flask app 
 
- NOTE : I am using Ubuntu to set up this server
+NOTE : I am using Ubuntu to set up this server
 
 I followed the following steps to set up my server for flask app this guide is for future reference.
 
@@ -31,6 +34,7 @@ Once decided to go with Digital ocean then:
 There are a few steps that should be done as a basic setup to increase the
 security and usability of server.
 
+
 #### Login as root
 
 - Connect you droplet with ssh from your machine
@@ -59,6 +63,16 @@ security and usability of server.
 
  Now once logged in as a root user, use your great power to create a new 
  sudo user
+
+## Using my script 
+- Clone this repo
+- `cd Setting-up-server`
+- `./setup.sh`
+
+There will be some prompts asking for username, password. Also this script is 
+setup to use my config files and installs vim, zsh, terminator on the server
+
+## Doing it manually
 
 #### Create New User
 
