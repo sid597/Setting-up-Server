@@ -57,8 +57,8 @@ sudo usermod -aG sudo $username
 # Add your local pc ssh public key
 
 # use this command to get a hold of key in local :
-# cat ~/.ssh/id_rsa.pub
 
+echo "Get your ssh key:  cat ~/.ssh/id_rsa.pub"
 read -rp $'Paste your ssh key : ' sshKey
 addSSHKey "${username}" "${sshKey}"
 
