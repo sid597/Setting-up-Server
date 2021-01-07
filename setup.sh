@@ -95,8 +95,8 @@ execAsUser "${username}" "sudo ufw status"
 # Install softwares 
 ##########################
 
-# execAsUser "${username}" "sudo apt update"
-# execAsUser "${username}" "sudo apt upgrade"
+execAsUser "${username}" "sudo apt update"
+execAsUser "${username}" "sudo apt upgrade"
 execAsUser "${username}" "sudo apt-get install vim "
 
 echo "#############################################"

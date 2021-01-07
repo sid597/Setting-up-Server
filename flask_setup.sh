@@ -97,15 +97,12 @@ sudo cp boloWiki.conf /etc/supervisor/conf.d/
 
 sudo rm /etc/nginx/sites-enabled/default
 # install ssl 
-# This is for ubuntu 18
+# This is for ubuntu 20 lts
 sudo apt-get update
-sudo apt-get install software-properties-common
-sudo add-apt-repository universe
-sudo add-apt-repository ppa:certbot/certbot
-sudo apt-get update
-
-sudo apt-get install certbot python3-certbot-nginx
-
+sudo snap install core; sudo snap refresh core
+sudo apt-get remove certbot
+sudo snap install --classic certbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
 sudo certbot --nginx
 sudo cp bolowiki /etc/nginx/sites-enabled/
 
