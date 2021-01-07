@@ -7,7 +7,14 @@
 
 sudo apt-get -y update
 sudo apt-get -y install python3 python3-venv python3-dev
-sudo apt-get -y install mysql-server postfix supervisor nginx git
+sudo apt-get -y install postfix supervisor nginx git
+sudo apt-get -y install build-essential
+
+# Install postgres
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt-get update
+sudo apt-get -y install postgresql libpq-dev
 
 
 # These installations run mostly unattended, but at some point while you run 
@@ -34,7 +41,7 @@ pip install wheel
 pip install --upgrade pip
 python3 -m pip install --upgrade setuptools
 pip install -r requirements.txt
-pip install gunicorn pymysql
+pip install gunicorn pygresql psycopg2
 
 ################################################################
 # IMPORTANT :
@@ -44,37 +51,14 @@ pip install gunicorn pymysql
 
 ################################################################
 
-# Set up database, for my app I am using MySql
-# Following code is copied from bolowiki/database_setup.sh
-
-# use tts(text to speech) the database name : for me
-# user name you know : for me
-
-read -rp $'Enter username for db :' user 
-read -rp $'Enter password for db :' password 
-read -rp $'Enter database name  :' database
+# Set up database, for my app I am using Postgres
  
-function execAsRoot() {
+sudo -u postgres createuser -s $USER
 
-    command=${1}
-    sudo mysql --user="root" --password=""  --execute="$command"
-}
+read -rp $'Name of database you want to create' dbName
+createdb $dbName
 
-function execAsUser() {
-    command=${1}
-    sudo mysql --user="$user" --password="$password" --database="$database" --execute="$command"
-
-}
-
-execAsRoot "create database $database character set utf8 collate utf8_bin;"
-execAsRoot "create user '$user'@'localhost' identified by '$password';"
-execAsRoot "grant all privileges on $database.* to '$user'@'localhost';"
-execAsRoot "flush privileges;"
-
-export FLASK_APP=bolowikiApp/__init__.py
-export FLASK_ENV=development      
 flask db upgrade
-
 
 # I have a configuration file for gunicorn, supervusor and nginx
 # so I am going to copy these config files into the right locations
@@ -84,6 +68,7 @@ deactivate
 cd 
 # clone repo
 
+echo "Clone repo with secrets and config files for gunicorn and nginx"
 
 read -rp $'address for the repo with ngin etc. conf to clone :' repoAddress
 sudo git clone $repoAddress
@@ -104,7 +89,7 @@ cd $repoName
 # autorestart=true
 # stopasgroup=true
 # killasgroup=true
-cp boloWiki.conf /etc/supervisor/conf.d/
+sudo cp boloWiki.conf /etc/supervisor/conf.d/
 
 ######################################
 # Install ssl certificate, Nginx
@@ -122,6 +107,7 @@ sudo apt-get update
 sudo apt-get install certbot python3-certbot-nginx
 
 sudo certbot --nginx
+sudo cp bolowiki /etc/nginx/sites-enabled/
 
 # copy the nginx conf  based on loaction of where conf is stored
 # It is typically one of /usr/local/nginx/conf, /etc/nginx, or /usr/local/etc/nginx.
